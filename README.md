@@ -3,7 +3,7 @@
 It is an integration between API Platform and Symfony Workflows
 
 ## Installation 
-`composer req imaximius/api-platform-workflow`
+`composer req imaximius/api-platform-workflow-bundle`
 
 ## Usage
 After an installation process, when a class supports workflow it'll have additional route (assuming entity dummy):
