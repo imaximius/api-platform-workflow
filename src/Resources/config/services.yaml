@@ -17,7 +17,6 @@ services:
             - '@Symfony\Component\Workflow\Registry'
             - [ ]
 
-
     Imaximius\WorkflowBundle\EventListener\WorkflowEnabledTransitionsListener:
         tags:
             - { name: kernel.event_listener, event: kernel.view, priority: 21 }
