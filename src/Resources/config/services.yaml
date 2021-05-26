@@ -20,3 +20,6 @@ services:
     Imaximius\WorkflowBundle\EventListener\WorkflowEnabledTransitionsListener:
         tags:
             - { name: kernel.event_listener, event: kernel.view, priority: 21 }
+        arguments:
+            - '@Symfony\Component\Serializer\SerializerInterface'
+            - '@Symfony\Component\Workflow\Registry'
