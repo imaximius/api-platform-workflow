@@ -1,0 +1,19 @@
+services:
+    Imaximius\WorkflowBundle\Metadata\Resource\Factory\WorkflowOperationResourceMetadataFactory:
+        decorates: 'api_platform.metadata.resource.metadata_factory'
+        arguments:
+            - '@Imaximius\WorkflowBundle\Metadata\Resource\Factory\WorkflowOperationResourceMetadataFactory.inner'
+            - [ ]
+
+    Imaximius\WorkflowBundle\PathResolver\OperationPathResolver:
+        decorates: 'api_platform.operation_path_resolver.generator'
+        arguments:
+            - '@Imaximius\WorkflowBundle\PathResolver\OperationPathResolver.inner'
+
+    Imaximius\WorkflowBundle\EventListener\WorkflowStateListener:
+        tags:
+            - { name: 'doctrine.event_subscriber' }
+
+    Imaximius\WorkflowBundle\EventListener\WorkflowEnabledTransitionsListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.view, priority: 21 }

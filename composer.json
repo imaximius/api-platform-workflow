@@ -1,0 +1,28 @@
+{
+  "name": "imaximius/api-platform-workflow-bundle",
+  "type": "symfony-bundle",
+  "description": "Provides a integration API Platform with Symfony Workflow",
+  "keywords": [
+    "Symfony Workflow",
+    "Workflow",
+    "API Platform Workflow"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Maksym Churkin",
+      "email": "imaximius@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.4 || 8.0",
+    "symfony/workflow": "^v5.2.0",
+    "api-platform/core": "^v2.6.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Imaximius\\WorkflowBundle\\": ""
+    },
+    "exclude-from-classmap": ["features/", "tests/"]
+  }
+}
