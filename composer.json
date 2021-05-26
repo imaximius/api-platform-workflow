@@ -21,7 +21,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Imaximius\\WorkflowBundle\\": ""
+      "Imaximius\\WorkflowBundle\\": "src"
     },
     "exclude-from-classmap": ["features/", "tests/"]
   }
