@@ -7,10 +7,14 @@ namespace Imaximius\WorkflowBundle\EventListener;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Workflow\Registry;
 
 class WorkflowStateListener implements EventSubscriber
 {
+    const DEFAULT_FIELD_NAME='state';
+
     /**
      * WorkflowStateListener constructor.
      * @param Registry $workflows
@@ -18,7 +22,8 @@ class WorkflowStateListener implements EventSubscriber
      */
     public function __construct(
         private Registry $workflows,
-        private array $supportsWorkflow = []
+        private ContainerInterface $container,
+        private array $arguments = []
     ) {
     }
 
@@ -38,15 +43,27 @@ class WorkflowStateListener implements EventSubscriber
     public function preUpdate(PreUpdateEventArgs $args): void
     {
         $class = $args->getObject();
-        if (!in_array(get_class($class), $this->supportsWorkflow, true)) {
+        if (!in_array(get_class($class), $this->arguments['supportsWorkflow'], true)) {
             return;
         }
 
-        if ($args->hasChangedField('state')) {
-            $state = $class->getState();
-            $class->setState($args->getOldValue('state'));
+        $stateField = $this->getWorkflowName($class);
+
+        var_dump($stateField);
+
+        if ($args->hasChangedField($stateField)) {
+            $state = $class->{'get'.ucfirst($stateField)}();
+            $class->{'set'.ucfirst($stateField)}($args->getOldValue($stateField));
 
             $this->workflows->get($class)->apply($class, $state);
         }
+    }
+
+    private function getWorkflowName($class): string
+    {
+        $workflowName = explode('.', $this->arguments['configs'][get_class($class)]);
+        $workflowParameters = $this->container->getParameter('workflows');
+
+        return $workflowParameters[end($workflowName)]['marking_store']['property'] ?? self::DEFAULT_FIELD_NAME;
     }
 }

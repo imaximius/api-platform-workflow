@@ -15,6 +15,7 @@ services:
             - { name: 'doctrine.event_subscriber' }
         arguments:
             - '@Symfony\Component\Workflow\Registry'
+            - '@service_container'
             - [ ]
 
     Imaximius\WorkflowBundle\EventListener\WorkflowEnabledTransitionsListener:
